@@ -7,16 +7,25 @@ const goods = [
     { title: 'Shoes', price: 250 },
 ];
 
-const renderGoodsItem = (title, price) => {
+const $goodsList = document.querySelector('.goods-list');
+
+const renderGoodsItem = ({ title, price }) => {
     return `<div class='goods-item'><h3>${title}</h3><p>${price}</p></div>`;
 };
 
-const renderGoodsList = (list) => {
-    let goodsList = list.map (item => renderGoodsItem(item.title, item.price));
-    document.querySelector(' .goods-list').innerHTML = goodsList;
+const renderGoodsList = (list = goods) => {
+    let goodsList = list.map(
+        (item) => {
+            return renderGoodsItem(item)
+        }
+    ).join('');
+
+    $goodsList.insertAdjacentHTML('beforeend', goodsList);
 }
 
-renderGoodsList(goods);
+renderGoodsList();
 
-// Добавьте стили для верхнего меню, товара, списка товаров 
-// и кнопки вызова корзины.
+document.body.parentNode.classList.add('goods-list-style');
+
+let getButtons = document.querySelector('.cart-button');
+getButtons.classList.add('cart-button-style');
