@@ -1,0 +1,18 @@
+.cart-button-style {
+    border: 2px solid black;
+    background: red;
+    color: white;
+    height: 30px;
+    width: 80px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.goods-list-style {
+    color: black;
+    font-style: italic;
+    font-size: 14px;
+    font-family: sans-serif; 
+}
