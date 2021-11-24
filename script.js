@@ -24,8 +24,3 @@ const renderGoodsList = (list = goods) => {
 }
 
 renderGoodsList();
-
-document.body.parentNode.classList.add('goods-list-style');
-
-let getButtons = document.querySelector('.cart-button');
-getButtons.classList.add('cart-button-style');
