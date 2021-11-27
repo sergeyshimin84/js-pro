@@ -58,8 +58,21 @@ class GoodsList {
         });
         document.querySelector('.goods-list').innertHTML = listHtml;
     }
+
+    summGoods() {
+        this.goods.price.map(i=>x+=i, x=0).summGoods();
+    }
 }
 
 const list = new GoodsList();
 list.fetchGoods();
 list.render();
+list.summGoods();
+
+class GoodsCart {
+
+}
+
+class GoodsCartList {
+
+}
