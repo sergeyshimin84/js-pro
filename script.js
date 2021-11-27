@@ -60,7 +60,7 @@ class GoodsList {
     }
 
     summGoods() {
-        this.goods.price.map(i=>x+=i, x=0).summGoods();
+        this.goods.price.map(i=>x+=i, x=0).summGoods()[0];
     }
 }
 
