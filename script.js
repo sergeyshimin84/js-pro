@@ -27,47 +27,51 @@
 
 class GoodsItem {
     constructor(title, price) {
-        this.title = title;
-        this.price = price;
+      this.title = title;
+      this.price = price;
     }
 
     render() {
-        return `<div class='goods-item'><h3>${title}</h3><p>${price}</p></div>`;
+      return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p></div>`;
     }
 }
 
 class GoodsList {
     constructor() {
-        this.goods = [];
+      this.goods = [];
     }
 
     fetchGoods() {
         this.goods = [
-            { title: 'Shirt', price: 150 },
-            { title: 'Socks', price: 50 },
-            { title: 'Jacket', price: 350 },
-            { title: 'Shoes', price: 250 },
+          { title: 'Shirt', price: 150 },
+          { title: 'Socks', price: 50 },
+          { title: 'Jacket', price: 350 },
+          { title: 'Shoes', price: 250 },
         ];
     }
 
     render() {
         let listHtml = '';
         this.goods.forEach(good => {
-            const goodItem = new GoodsItem(good.title, good.price);
-            listHtml += goodItem.render();
+          const goodItem = new GoodsItem(good.title, good.price);
+          listHtml += goodItem.render();
         });
-        document.querySelector('.goods-list').innertHTML = listHtml;
+        document.querySelector('.goods-list').innerHTML = listHtml;
     }
 
-    summGoods() {
-        this.goods.price.map(i=>x+=i, x=0).summGoods()[0];
+    sumGoods() {
+        let sumGood = 0;
+        this.goods.forEach(sum => {
+            const sumItem = new GoodsItem(sum.price);
+            sumGood += sumItem.sumGoods();
+        });
     }
 }
 
 const list = new GoodsList();
 list.fetchGoods();
 list.render();
-list.summGoods();
+list.sumGoods();
 
 class GoodsCart {
 
