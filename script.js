@@ -37,17 +37,52 @@ class GoodsItem {
 }
 
 class GoodsList {
-    constructor() {
+    constructor(cart) {
       this.goods = [];
+      this.filtred = [];
+      this._cart = cart;
+      this._el = document.querySelector('.goods-list')
+      this._el.addEventListener('click', this._onClick.bind(this))
+    }
+
+    filter(searchString) {
+      searchString = searchString.trim()
+      
+      if(searchString.length === 0) {
+        this.filtred = this.goods;
+        this.render()
+        return
+      }
+
+      const reg = new RegExp(searchString, 'i');
+      this.filtred = this.goods.filter((good) => reg.test(good.title))
+      this.render()
     }
 
     fetchGoods() {
-        this.goods = [
-          { title: 'Shirt', price: 150 },
-          { title: 'Socks', price: 50 },
-          { title: 'Jacket', price: 350 },
-          { title: 'Shoes', price: 250 },
-        ];
+      fetch(`${API_URL}catalogData.json`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((request) => {
+        this.goods = request.map(good => ({title: good.product_name, price: good.price}))
+        this.render();
+      })
+      .catch((err) => { 
+        console.log(err.text)
+      })
+    }
+
+    _onClick(e) {
+      const id = e.target.getAttribute('data-id');
+      console.log(id)
+      if(id) {
+        fetch(`${API_URL}addToBasket.json`)
+        .then(() => {
+          console.log(id, this.goods)
+          this._cart.add(this.goods.find((good) => good.id == id))
+        })
+      }
     }
 
     render() {
@@ -66,6 +101,7 @@ class GoodsList {
             sumGood += sumItem.sumGoods();
         });
     }
+
 }
 
 const list = new GoodsList();

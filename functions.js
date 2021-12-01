@@ -1,3 +1,5 @@
+'use strict'
+
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'
 
 function send(onError, onSuccess, url, method = 'GET', data = null, headers = [], timeout = 60000) {

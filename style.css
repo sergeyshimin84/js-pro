@@ -11,6 +11,10 @@
     margin: 20px;
 }
 
+.search-button, .goods-search {
+    border-radius: 5px;
+}
+
 .goods-list {
     display: flex;
     color: black;
@@ -29,13 +33,13 @@
 }
 
 .goods-item:nth-child(1) {
-    background-image: url(img/shirt.jpg);
+    background-image: url(img/laptop.jpg);
     background-size: contain;
     background-repeat: no-repeat;
 }
 
 .goods-item:nth-child(2) {
-    background-image: url(img/socks.jpg);
+    background-image: url(img/mouse.jpg);
     background-size: contain;
     background-repeat: no-repeat;
 }
