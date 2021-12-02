@@ -1,0 +1,72 @@
+.cart-button {
+    border: 2px solid black;
+    background: lightgray;
+    color: black;
+    height: 50px;
+    width: 150px;
+    border-radius: 5px;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+.search-button, .goods-search {
+    border-radius: 5px;
+}
+
+.goods-list {
+    display: flex;
+    color: black;
+    font-style: italic;
+    font-size: 20px;
+    font-family: sans-serif;
+}
+
+.goods-item {
+    border: 2px solid black;
+    border-radius: 5px;
+    min-width: 150px;
+    min-height: 200px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.goods-item:nth-child(1) {
+    background-image: url(img/laptop.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.goods-item:nth-child(2) {
+    background-image: url(img/mouse.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.goods-item:nth-child(3) {
+    background-image: url(img/jacket.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.goods-item:nth-child(4)  {
+    background-image: url(img/shoes.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.goods-item:nth-child(1) > h3, .goods-item:nth-child(2) > h3, 
+.goods-item:nth-child(3) > h3, .goods-item:nth-child(4) > h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 150px;
+    color: black;
+}
+
+.goods-item:nth-child(1) > p, .goods-item:nth-child(2) > p, 
+.goods-item:nth-child(3) > p, .goods-item:nth-child(4) > p {
+    margin-top: 10px;
+    margin-bottom: 0;
+    color: red;
+}
