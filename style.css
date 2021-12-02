@@ -1,17 +1,6 @@
-.cart-button {
+.cart-button, .search-button, .goods-search {
     border: 2px solid black;
-    background: lightgray;
     color: black;
-    height: 50px;
-    width: 150px;
-    border-radius: 5px;
-    font-size: 22px;
-    font-weight: bold;
-    font-family: sans-serif;
-    margin: 20px;
-}
-
-.search-button, .goods-search {
     border-radius: 5px;
 }
 
