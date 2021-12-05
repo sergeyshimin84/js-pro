@@ -10,18 +10,16 @@
 </head>
 
 <body>
+    <script src="functions.js"></script>
+
     <header>
-        <input type="text" class="goods-search">
-        <button class="search-button" type="button">Искать</button>
         <button class="cart-button" type="button">Корзина</button>
-        <div class="cart"></div>
     </header>
 
     <main>
         <div class="goods-list"></div>
     </main>
 
-    <script src="functions.js"></script>
     <script src="script.js"></script>
 </body>
 
