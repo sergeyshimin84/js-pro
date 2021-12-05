@@ -9,7 +9,7 @@ class GoodsItem {
     this.price = price;
     this.id = id;
   }
-
+  // Отрисовываем страницу.
   render() {
     return `<div data-id="${this.id}" class="goods-item"><h3>${this.title}</h3><p>${this.price}</p></div>`;
   }
@@ -43,14 +43,14 @@ class GoodsList {
   }
 
   fetchGoods() {
-    fetch(`${API_URL}catalogData.json`)
+    return fetch(`${API_URL}catalogData.json`)
       .then((response) => {
         return response.json();
       })
       .then((request) => {
         this.goods = request.map(good => ({ title: good.product_name, price: good.price, id: good.id_product}))
         this.filtred = this.goods;
-        this.render();
+        return this.goods
       })
       .catch((err) => {
         console.log(err.text)
@@ -173,5 +173,8 @@ document.querySelector('.goods-list').addEventListener('click', (e) => {
   }
 })
 
-list.fetchGoods();
+list.fetchGoods()
+  .then((goods) => {
+    list.render();
+  }) 
 cart.load();
