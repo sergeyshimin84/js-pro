@@ -59,3 +59,7 @@
     margin-bottom: 0;
     color: red;
 }
+
+.active {
+    display: none;
+}

@@ -1,5 +1,5 @@
 'use strict'
-
+// Находим input и button (DOM-элементы).
 const $searchInput = document.querySelector('.goods-search');
 const $searchBtn = document.querySelector('.search-button');
 
@@ -17,23 +17,27 @@ class GoodsItem {
 
 class GoodsList {
   constructor(cart) {
+    // В goods записываем товары при получении их с сервера
     this.goods = [];
+    // Заводим массив filtred (копия массива goods), для того чтобы не отсикать некоторые товары из goods (чтобы не трокать основной массив goods, который является резервной коприей)
     this.filtred = [];
     this._cart = cart;
     this._el = document.querySelector('.goods-list')
     this._el.addEventListener('click', this._onClick.bind(this))
   }
-
+// filter - метод поиска.
   filter(searchString) {
+    // Убираем лишние символы с помощью метода trim.
     searchString = searchString.trim()
-
+    // Если длина внесеных пользователем данных равна нулю, то возвращаем renser, перрерисовываем страницу (востанавливаем из резервной копии массива goods все значения)
     if (searchString.length === 0) {
       this.filtred = this.goods;
       this.render()
       return
     }
-
+    // Поисковую строку переводим в решулярное выражение. Передаем "флаг" "i" чтобы не учитвать регистр
     const reg = new RegExp(searchString, 'i');
+    // Записываем найденый товар в filter и перерисовываем карточки вызывая render.
     this.filtred = this.goods.filter((good) => reg.test(good.title))
     this.render()
   }
@@ -44,7 +48,8 @@ class GoodsList {
         return response.json();
       })
       .then((request) => {
-        this.goods = request.map(good => ({ title: good.product_name, price: good.price, id: good.id_product }))
+        this.goods = request.map(good => ({ title: good.product_name, price: good.price, id: good.id_product}))
+        this.filtred = this.goods;
         this.render();
       })
       .catch((err) => {
@@ -65,7 +70,9 @@ class GoodsList {
   }
 
   render() {
+    // Сначала очищаем контейнер.
     let listHtml = '';
+    // Перебираем массчив goods с помощью метода forEach.
     this.goods.forEach(good => {
       const goodItem = new GoodsItem(good.title, good.price, good.id);
       console.log(goodItem)
@@ -97,13 +104,17 @@ class CartItem extends GoodsItem {
 
 class Cart {
   constructor() {
+    // Массив товаров.
     this._list = [];
+    // Отдельная переманная для модального окна.
     this._btn = document.querySelector('.cart-button')
+    // Отдельная переменная на элемент модального окна.
     this._el = document.querySelector('.cart')
+    // Обрабоботчики событий.
     this._btn.addEventListener('click', this._onToggleCart.bind(this))
     this._el.addEventListener('click', this._onClick.bind(this))
   }
-
+  // Добавляет товар в корзину.
   add(good) {
     this._list.push(good)
     console.log(good)
@@ -119,11 +130,11 @@ class Cart {
         this.render()
       })
   }
-
+  // При нажатии на кнопку меняет класс "active" что-бы скрытьего.
   _onToggleCart() {
     this._el.classList.toggle('active');
   }
-
+  // Отрисовывает корзину.
   render() {
     let listHtml = '';
     this._list.forEach(good => {
@@ -134,14 +145,14 @@ class Cart {
     });
     this._el.innerHTML = listHtml;
   }
-
+  // Загружает с сервера товары в корзину.
   load() {
     fetch(`${API_URL}getBasket.json`)
       .then((response) => {
         return response.json()
       })
       .then((goods) => {
-        this._list = goods.contents.map(good => ({ title: good.product_name, price: good.price, id: good.id_product }))
+        this._list = goods.contents.map(good => ({ title: good.product_name, price: good.price, id: good.id_product}))
         this.render()
       })
   }
@@ -150,6 +161,7 @@ class Cart {
 
 const cart = new Cart();
 const list = new GoodsList(cart);
+// При клике на кнопку поиска с помощью обработчика list.filter передается значение которое было в input.
 $searchBtn.addEventListener('click', () => {
   list.filter($searchInput.value);
 })
@@ -160,3 +172,6 @@ document.querySelector('.goods-list').addEventListener('click', (e) => {
     console.log(id);
   }
 })
+
+list.fetchGoods();
+cart.load();
