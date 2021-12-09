@@ -9,7 +9,7 @@ class GoodsItem {
     this.price = price;
     this.id = id;
   }
-  // Отрисовываем страницу.
+  // Отрисовываем страницу (отображаем товары).
   render() {
     return `<div data-id="${this.id}" class="goods-item"><h3>${this.title}</h3><p>${this.price}</p></div>`;
   }
@@ -58,12 +58,15 @@ class GoodsList {
   }
 
   _onClick(e) {
+    // Получаем id элемена по которому кликнули (берем атрибут data-id).
     const id = e.target.getAttribute('data-id');
     console.log(id)
     if (id) {
+      // Если успешно найден id, выполняем метод fetch.
       fetch(`${API_URL}addToBasket.json`)
         .then(() => {
           console.log(id, this.goods)
+          // Добавляем товар в корзину методом add.
           this._cart.add(this.goods.find((good) => good.id == id))
         })
     }
@@ -78,6 +81,7 @@ class GoodsList {
       console.log(goodItem)
       listHtml += goodItem.render();
     });
+    // Отрисовываем товар.
     this._el.innerHTML = listHtml;
   }
 
@@ -126,7 +130,8 @@ class Cart {
     fetch(`${API_URL}deleteFromBasket.json`)
       .then(() => {
         const index = this._list.findIndex((good) => good.id == id)
-        this.list.splice(index, 1)
+        // Удаляем товар методом splice.
+        this._list.splice(index, 1)
         this.render()
       })
   }
@@ -160,7 +165,7 @@ class Cart {
 }
 
 const cart = new Cart();
-const list = new GoodsList(cart);
+
 // При клике на кнопку поиска с помощью обработчика list.filter передается значение которое было в input.
 $searchBtn.addEventListener('click', () => {
   list.filter($searchInput.value);

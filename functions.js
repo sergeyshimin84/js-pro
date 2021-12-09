@@ -2,36 +2,38 @@
 
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'
 
-function send(onError, onSuccess, url, method = 'GET', data = null, headers = [], timeout = 60000) {
-    let xhr;
+function send(url, method = 'GET', data = '', headers = [], timeout = 60000) {
+    return new Promise((res, rej) => {
+        let xhr;
 
-    if (window.XMLHttpRequest) {
-        // Chrome, Mozilla, Opera, Safari
-        xhr = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        // Internet Explorer
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
+        if (window.XMLHttpRequest) {
+            // Chrome, Mozilla, Opera, Safari
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            // Internet Explorer
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
 
-    xhr.open(method, url, true);
+        for([key, value] of Object.entries(headers)) {
+            xhr.setRequestHeader(key, value)
+        }
 
+        xhr.timeout = timeout;
 
-    headers.forEach((header) => {
-        xhr.setRequestHeader(header.key, header.value);
-    })
+        xhr.ontimeout = rej;
 
-
-    xhr.timeout = timeout;
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status >= 400) {
-                onError(xhr.statusText)
-            } else {
-                onSuccess(xhr.responseText)
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status < 400) {
+                    res((xhr.responseText))
+                } else {
+                    rej(xhr.status)
+                }
             }
         }
-    }
 
-    xhr.send(data);
+        xhr.open(method, url, true);
+
+        xhr.send(data);
+    }) 
 }
