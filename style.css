@@ -1,10 +1,27 @@
+.modal {
+    width: 600px;
+    height: 400px;
+    position: absolute;
+    top: 100px;
+    left: calc(50% - 300px);
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
 .cart-button, .search-button, .goods-search {
     border: 2px solid black;
     color: black;
     border-radius: 5px;
 }
 
-.goods-list {
+.goods-list, .cart {
     display: flex;
     color: black;
     font-style: italic;
