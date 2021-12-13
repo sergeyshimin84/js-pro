@@ -36,7 +36,7 @@
     <!-- Модальное окно. Изначально не отрисовывается, при клике становиться видимым.-->
     <div class="modal" v-if="isVisibleCart">
       <!--Закрываем модальное окно, с помощью метода onToggleCart (при клике на крестик).-->
-      <span class="close" v-on:click="onToggleCart">x</span>
+      <span class="close" v-on:click="onToggleCart">X</span>
 
       <div class="goods-list">
         <div class="good-card" v-for="good of cart" v-bind:key="good.id_product">
@@ -45,6 +45,9 @@
           <!--При клике на крестик удаляем товары из корзины методом removeFromCart.-->
           <button v-on:click="removeFromCart">Х</button>
         </div>
+        <template v-if="this.cart.length == [0]">
+          <h3>Нет данных</h3>
+        </template>
       </div>
     </div>
   </div>

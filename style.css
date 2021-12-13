@@ -4,9 +4,9 @@
     position: absolute;
     top: 100px;
     left: calc(50% - 300px);
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     background-color: white;
-    border-radius: 4px;
+    border-radius: 5px;
 }
 
 .close {
@@ -21,7 +21,7 @@
     border-radius: 5px;
 }
 
-.goods-list, .cart {
+.goods-list {
     display: flex;
     color: black;
     font-style: italic;
@@ -29,49 +29,50 @@
     font-family: sans-serif;
 }
 
-.goods-item {
+.good-card {
     border: 2px solid black;
     border-radius: 5px;
     min-width: 150px;
     min-height: 200px;
     margin-left: 20px;
+    margin-top: 20px;
     text-align: center;
 }
 
-.goods-item:nth-child(1) {
+/* .goods-list:nth-child(1) {
     background-image: url(img/laptop.jpg);
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-.goods-item:nth-child(2) {
+.goods-list:nth-child(2) {
     background-image: url(img/mouse.jpg);
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-.goods-item:nth-child(3) {
+.goods-list:nth-child(3) {
     background-image: url(img/jacket.jpg);
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-.goods-item:nth-child(4)  {
+.goods-list:nth-child(4)  {
     background-image: url(img/shoes.jpg);
     background-size: contain;
     background-repeat: no-repeat;
-}
+} */
 
-.goods-item:nth-child(1) > h3, .goods-item:nth-child(2) > h3, 
-.goods-item:nth-child(3) > h3, .goods-item:nth-child(4) > h3 {
+.good-card:nth-child(1) > h3, .good-card:nth-child(2) > h3, 
+.good-card:nth-child(3) > h3, .good-card:nth-child(4) > h3 {
     margin-top: 0;
     margin-bottom: 0;
     padding-top: 150px;
     color: black;
 }
 
-.goods-item:nth-child(1) > p, .goods-item:nth-child(2) > p, 
-.goods-item:nth-child(3) > p, .goods-item:nth-child(4) > p {
+.good-card:nth-child(1) > p, .good-card:nth-child(2) > p, 
+.good-card:nth-child(3) > p, .good-card:nth-child(4) > p {
     margin-top: 10px;
     margin-bottom: 0;
     color: red;

@@ -66,7 +66,7 @@ new Vue({
     }
   },
   // Запускаем this.loadGoods, this.loadCart.
-  // mounted функция Vue.js (зашитая функция).
+  // mounted функция Vue.js (встроеная функция).
   mounted() {
     this.loadGoods();
     this.loadCart();
