@@ -3,6 +3,17 @@
 // Вводится переменная с адресом корневого каталога (основная ссылка).
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'
 
+Vue.component('search', {
+  template: `
+  `,
+  data() {
+    return {
+      
+    }
+  }
+})
+
+
 // В объекте Vue находяться переменные (данные приложения).
 new Vue({
   el: "#app",
