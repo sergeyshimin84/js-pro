@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>eShop</title>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <search v-on:search="onSearch"></search>
+      <button class="cart-button" type="button" v-on:click="onToggleCart">Корзина</button>
+      <good-card></good-card>
+    </header>
+    <main>
+      <goods-list 
+        v-bind:list="filteredGoods"
+        v-on:add="onAdd"
+      ></goods-list>
+    </main>
+    <cart v-if="isVisibleCart" v-bind:list="cart" v-on:delete="onDelete" v-on:close="onToggleCart"></cart>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
