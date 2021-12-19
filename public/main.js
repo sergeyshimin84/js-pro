@@ -1,9 +1,10 @@
 'use strict';
 
-// Вводится переменная с адресом корневого каталога (основная ссылка).
+// Адрес локального сервера (127.0.0.1).
 const API_URL = 'http://127.0.0.1:3001/'
-
-// 
+// Компоненты.
+// Компонент good-card.
+// Принимаем значения title и price.
 // @click - сокращенная запись v-on:click.
 Vue.component('good-card', {
   template: `
@@ -12,23 +13,28 @@ Vue.component('good-card', {
       <p>$ {{ data.price }}</p>
     </div>
   `,
+  // Принимаем данные для title и price.
   props: ['data'],
   methods: {
     onClick() {
+      // После клика, отправляется запрос API_URL, метод .addToCart.  
       fetch(`${API_URL}addToCart`, {
         method: "POST",
+        // Устанавливаем заголовок. Даем понять серверу что отправляем данные в json формате.
         headers: {
           'Content-Type': 'application/JSON'
         },
+        // В тело запроса отправляем json строку. Для добавление в корзину.
         body: JSON.stringify(this.data)
       })
+        // После получения ответа. Генерируем событие. Передаем добавляемый объект.
         .then(() => {
           this.$emit('add', this.data)
         })
     }
   }
 })
-
+// Компонент goods-list. Вызывает компонент good-card. 
 Vue.component('goods-list', {
   template: `
     <div class="goods-list">
@@ -42,12 +48,13 @@ Vue.component('goods-list', {
   `,
   props: ['list'],
   methods: {
+    // Метод onAdd принимает товар добавляемый товар good. Пробрасывает событие. 
     onAdd(good) {
       this.$emit('add', good)
     }
   }
 })
-
+// Компонент search. Поиск.
 Vue.component('search', {
   template: `
     <div class="search">
@@ -55,18 +62,21 @@ Vue.component('search', {
       <button class="search-button" type="button" v-on:click="onClick">Искать</button>
     </div>
   `,
+  // Возвращает строку.
   data() {
     return {
       searchString: ''
     }
   },  
   methods: {
+    // Метод onClick привязан на событие клик кнопки "Искать".
     onClick(){
+      // Генерирует событие и передает содержимое в searchString.
       this.$emit('search', this.searchString)
     }
   }
 })
-
+// Компонент cart-item. Корзина.
 Vue.component('cart-item', {
   template: `
     <div class="good-card">
@@ -78,20 +88,24 @@ Vue.component('cart-item', {
   props: ['data'],
   methods: {
     onClick() {
+      // Отправляет запрос на removeFromCart.
       fetch(`${API_URL}removeFromCart`, {
         method: "POST",
+        // Устанавливаем заголовок. Даем понять серверу что отправляем данные в json формате.
         headers: {
           'Content-Type': 'application/JSON'
         },
+        // В тело запроса отправляем json строку. Для добавление в корзину.
         body: JSON.stringify(this.data)
       })
+        // После получения ответа. Генерируем событие. Передаем удаляемый объект.
         .then(() => {
           this.$emit('delete', this.data)
         })
     }
   }
 })
-
+// Компонент cart. Корзина.
 Vue.component('cart', {
   template: `
     <div class="modal">
@@ -106,9 +120,11 @@ Vue.component('cart', {
   `,
   props: ['list'],
   methods: {
+    // Метод onDelete принимает товар добавляемый товар good. Пробрасывает событие. 
     onDelete(good) {
       this.$emit('delete', good)
     },
+    // Метод onClose, закрывает корзину. 
     onClose(){
       this.$emit('close')
     }
@@ -122,7 +138,6 @@ new Vue({
     goods: [],
     filteredGoods: [],
     cart: [],
-    searchLine: '',
     isVisibleCart: false
   },
   // Набор методов.
@@ -140,46 +155,31 @@ new Vue({
     // Методом loadCart, получаем товары в корзине. 
     // Записываем в this.cart полученные от сервера товары. 
     loadCart(){
-      fetch(`${API_URL}getBasket.json`)
+      fetch(`${API_URL}cart`)
         .then((request) => request.json())
         .then((data) => {
-          this.cart = data.contents;
-        })
-    },
-    // Метод addToCart принимает товар и отправляет его на сервер.
-    // После ответа сервера о добавлении товара, отправляем его в массив this.cart (добавляем в корзину).
-    addToCart(good){
-      fetch(`${API_URL}addToBasket.json`)
-        .then(() => {
-          this.cart.push(good)
-        })
-    },
-    // Методом removeFromCart удаляем товары из корзины. Отправляем запрос об удалении на сервер.
-    // После подтверждения удаления, удаляем товар из массива this.cart (удаляем из корзины). 
-    removeFromCart(good){
-      fetch(`${API_URL}deleteFromBasket.json`)
-        .then(() => {
-          // Проходим по всему массиву сравнивая id элементов. Находим нужный товар.
-          const index = this.cart.findIndex((item) => item.id_product == good.id_product)
-          // Удаляем найденый товар с определенным индексом из корзины, через splice. 
-          this.cart.splice(index - 1, 1)
+          this.cart = data;
         })
     },
     // Метод фильтрации onSearch.
     // Берется переменная this.searchString. С помощью регулярного выражения проверяем названя товаров.
     // Отфильтрованный массив помещаем в this.filteredGoods (найденый товар отрисован).
-    onSearch() {
+    onSearch(searchString) {
+      console.log(searchString)
       const regex = new RegExp(this.searchString, 'i')
       this.filteredGoods = this.goods.filter((good) => regex.test(good.title))
     },
-    // Метод onAdd добавляет товары.
+    // Метод onAdd. Принимает добавленный товар good и передает его в cart.
     onAdd(good) {
       this.cart.push(good)
     },
     // Метод onDelete удаляет товары из корзины.
     onDelete(good){
+      // Методом .findIndex находим id удаляемого элемента (проверка).
       const idx = this.cart.findIndex((item) => item.id === good.id)
+      // Проверка. Найден ли элемент. В случае если элемент не найден, вернется -1.
       if(idx >= 0) {
+        // Создаем новый массив, с помощью спред оператора. Метод .slice возвращает кусок массива с нулевого id, до конечного.
         this.cart = [...this.cart.slice(0, idx), ...this.cart.slice(idx + 1)]
       }
     },
